@@ -21,7 +21,7 @@ export function SiteHeader() {
             Mortgage repayments
           </Link>
           <Link
-            href="/compound-interest"
+            href="/compound-interest-calculator"
             className="text-sm text-muted-foreground transition-colors hover:text-foreground"
           >
             Compound interest

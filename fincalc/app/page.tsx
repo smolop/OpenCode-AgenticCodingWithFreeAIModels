@@ -84,7 +84,7 @@ export default function Home() {
               </Link>
             </Button>
             <Button asChild variant="outline" size="lg">
-              <Link href="/compound-interest">
+              <Link href="/compound-interest-calculator">
                 Compound interest calculator
               </Link>
             </Button>
@@ -180,7 +180,7 @@ export default function Home() {
               </CardContent>
               <CardFooter>
                 <Button asChild variant="secondary" className="w-full">
-                  <Link href="/compound-interest">
+                  <Link href="/compound-interest-calculator">
                     Open compound interest calculator
                     <ArrowRightIcon data-icon="inline-end" />
                   </Link>
@@ -231,7 +231,7 @@ export default function Home() {
                 </Link>
               </Button>
               <Button asChild variant="outline">
-                <Link href="/compound-interest">
+                <Link href="/compound-interest-calculator">
                   Compound interest
                   <ArrowRightIcon data-icon="inline-end" />
                 </Link>
