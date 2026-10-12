@@ -10,10 +10,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
+import { SiteFooter } from "@/components/site-footer";
+import { SiteHeader } from "@/components/site-header";
 import {
   ArrowRightIcon,
-  CalculatorIcon,
   CheckIcon,
   HouseIcon,
   PercentIcon,
@@ -61,37 +61,7 @@ const highlights = [
 export default function Home() {
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="w-full">
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
-          <Link href="/" className="flex items-center gap-2">
-            <span className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-              <CalculatorIcon className="size-4" />
-            </span>
-            <span className="font-heading text-base font-medium">FinCalc</span>
-          </Link>
-          <nav className="hidden items-center gap-6 md:flex">
-            <Link
-              href="/mortgage"
-              className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-            >
-              Mortgage repayments
-            </Link>
-            <Link
-              href="/compound-interest"
-              className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-            >
-              Compound interest
-            </Link>
-          </nav>
-          <Button asChild size="sm">
-            <Link href="/mortgage">
-              Get started
-              <ArrowRightIcon data-icon="inline-end" />
-            </Link>
-          </Button>
-        </div>
-        <Separator />
-      </header>
+      <SiteHeader />
 
       <main className="flex flex-1 flex-col">
         <section className="flex flex-col items-center gap-6 px-4 py-20 text-center sm:px-6 sm:py-28">
@@ -271,17 +241,7 @@ export default function Home() {
         </section>
       </main>
 
-      <Separator />
-      <footer className="mx-auto flex w-full max-w-6xl flex-col items-center justify-between gap-4 px-4 py-8 text-sm text-muted-foreground sm:flex-row sm:px-6">
-        <div className="flex items-center gap-2">
-          <span className="flex size-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
-            <CalculatorIcon className="size-3.5" />
-          </span>
-          <span className="font-medium text-foreground">FinCalc</span>
-        </div>
-        <p>Free mortgage and compound interest calculators.</p>
-        <p>© 2026 FinCalc</p>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }
