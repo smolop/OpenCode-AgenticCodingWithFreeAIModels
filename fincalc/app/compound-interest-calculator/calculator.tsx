@@ -548,6 +548,7 @@ export function CompoundInterestCalculator() {
                     axisLine={false}
                     tickMargin={8}
                     width={64}
+                    domain={[0, "auto"]}
                     tickFormatter={(value) =>
                       compactCurrency.format(Number(value))
                     }
@@ -564,7 +565,6 @@ export function CompoundInterestCalculator() {
                   <Area
                     dataKey="contributions"
                     type="monotone"
-                    stackId="a"
                     stroke="var(--color-contributions)"
                     fill="var(--color-contributions)"
                     fillOpacity={0.6}
@@ -572,7 +572,6 @@ export function CompoundInterestCalculator() {
                   <Area
                     dataKey="interest"
                     type="monotone"
-                    stackId="a"
                     stroke="var(--color-interest)"
                     fill="var(--color-interest)"
                     fillOpacity={0.6}
