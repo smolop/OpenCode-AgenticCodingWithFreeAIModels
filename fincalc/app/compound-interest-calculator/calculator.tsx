@@ -61,7 +61,7 @@ import {
 import { formatCurrency } from "@/lib/format";
 
 type FieldKey = "principal" | "contribution" | "interestRate" | "years";
-type CalculatorView = "calculator" | "growth";
+type CalculatorView = "calculator" | "growth" | "chart";
 
 const chartConfig = {
   contributions: { label: "Contributions", color: "var(--chart-1)" },
@@ -190,6 +190,10 @@ export function CompoundInterestCalculator() {
         <ToggleGroupItem value="growth" className="flex-1 sm:flex-none">
           <TableIcon data-icon="inline-start" />
           Growth schedule
+        </ToggleGroupItem>
+        <ToggleGroupItem value="chart" className="flex-1 sm:flex-none">
+          <ChartLineIcon data-icon="inline-start" />
+          Growth chart
         </ToggleGroupItem>
       </ToggleGroup>
 
@@ -325,6 +329,7 @@ export function CompoundInterestCalculator() {
                         Quarterly
                       </ToggleGroupItem>
                       <ToggleGroupItem value="monthly">Monthly</ToggleGroupItem>
+                      <ToggleGroupItem value="daily">Daily</ToggleGroupItem>
                     </ToggleGroup>
                   </Field>
 
@@ -419,88 +424,6 @@ export function CompoundInterestCalculator() {
               </CardContent>
             </Card>
           </div>
-
-          <Card>
-            <CardHeader>
-              <span className="flex size-10 items-center justify-center rounded-xl bg-muted">
-                <ChartLineIcon className="size-5" />
-              </span>
-              <CardTitle>Growth over time</CardTitle>
-              <CardDescription>
-                {result
-                  ? `How your balance grows across ${yearsNum} ${yearNoun} — contributions versus interest.`
-                  : "Correct the highlighted fields to see your growth chart."}
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              {result ? (
-                <ChartContainer
-                  config={chartConfig}
-                  className="h-[320px] w-full"
-                >
-                  <AreaChart
-                    accessibilityLayer
-                    data={chartData}
-                    margin={{ left: 12, right: 12 }}
-                  >
-                    <CartesianGrid vertical={false} />
-                    <XAxis
-                      dataKey="year"
-                      tickLine={false}
-                      axisLine={false}
-                      tickMargin={8}
-                      tickFormatter={(value) => `Year ${value}`}
-                    />
-                    <YAxis
-                      tickLine={false}
-                      axisLine={false}
-                      tickMargin={8}
-                      width={64}
-                      tickFormatter={(value) =>
-                        compactCurrency.format(Number(value))
-                      }
-                    />
-                    <ChartTooltip
-                      content={
-                        <ChartTooltipContent
-                          labelFormatter={(value) => `Year ${value}`}
-                          formatter={(value) =>
-                            formatCurrency(Number(value), 0)
-                          }
-                        />
-                      }
-                    />
-                    <ChartLegend content={<ChartLegendContent />} />
-                    <Area
-                      dataKey="contributions"
-                      type="monotone"
-                      stackId="a"
-                      stroke="var(--color-contributions)"
-                      fill="var(--color-contributions)"
-                      fillOpacity={0.6}
-                    />
-                    <Area
-                      dataKey="interest"
-                      type="monotone"
-                      stackId="a"
-                      stroke="var(--color-interest)"
-                      fill="var(--color-interest)"
-                      fillOpacity={0.6}
-                    />
-                  </AreaChart>
-                </ChartContainer>
-              ) : (
-                <Alert>
-                  <TriangleAlertIcon />
-                  <AlertTitle>Chart paused</AlertTitle>
-                  <AlertDescription>
-                    Fix the highlighted inputs and your growth chart will appear
-                    here.
-                  </AlertDescription>
-                </Alert>
-              )}
-            </CardContent>
-          </Card>
         </div>
       )}
 
@@ -581,6 +504,88 @@ export function CompoundInterestCalculator() {
                 <AlertDescription>
                   Fix the highlighted inputs and your growth schedule will
                   appear here.
+                </AlertDescription>
+              </Alert>
+            )}
+          </CardContent>
+        </Card>
+      )}
+
+      {view === "chart" && (
+        <Card>
+          <CardHeader>
+            <span className="flex size-10 items-center justify-center rounded-xl bg-muted">
+              <ChartLineIcon className="size-5" />
+            </span>
+            <CardTitle>Growth over time</CardTitle>
+            <CardDescription>
+              {result
+                ? `How your balance grows across ${yearsNum} ${yearNoun} — contributions versus interest.`
+                : "Correct the highlighted fields to see your growth chart."}
+            </CardDescription>
+            <CardAction>
+              <Badge variant="secondary">{contributionLabel}</Badge>
+            </CardAction>
+          </CardHeader>
+          <CardContent>
+            {result ? (
+              <ChartContainer config={chartConfig} className="h-[320px] w-full">
+                <AreaChart
+                  accessibilityLayer
+                  data={chartData}
+                  margin={{ left: 12, right: 12 }}
+                >
+                  <CartesianGrid vertical={false} />
+                  <XAxis
+                    dataKey="year"
+                    tickLine={false}
+                    axisLine={false}
+                    tickMargin={8}
+                    tickFormatter={(value) => `Year ${value}`}
+                  />
+                  <YAxis
+                    tickLine={false}
+                    axisLine={false}
+                    tickMargin={8}
+                    width={64}
+                    tickFormatter={(value) =>
+                      compactCurrency.format(Number(value))
+                    }
+                  />
+                  <ChartTooltip
+                    content={
+                      <ChartTooltipContent
+                        labelFormatter={(value) => `Year ${value}`}
+                        formatter={(value) => formatCurrency(Number(value), 0)}
+                      />
+                    }
+                  />
+                  <ChartLegend content={<ChartLegendContent />} />
+                  <Area
+                    dataKey="contributions"
+                    type="monotone"
+                    stackId="a"
+                    stroke="var(--color-contributions)"
+                    fill="var(--color-contributions)"
+                    fillOpacity={0.6}
+                  />
+                  <Area
+                    dataKey="interest"
+                    type="monotone"
+                    stackId="a"
+                    stroke="var(--color-interest)"
+                    fill="var(--color-interest)"
+                    fillOpacity={0.6}
+                  />
+                </AreaChart>
+              </ChartContainer>
+            ) : (
+              <Alert>
+                <TriangleAlertIcon />
+                <AlertTitle>Chart paused</AlertTitle>
+                <AlertDescription>
+                  Fix the highlighted inputs and your growth chart will appear
+                  here.
                 </AlertDescription>
               </Alert>
             )}

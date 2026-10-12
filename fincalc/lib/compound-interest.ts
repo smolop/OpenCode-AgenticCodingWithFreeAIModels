@@ -84,12 +84,12 @@ export function calculateCompoundInterest(
   let regularContributions = 0;
 
   for (let month = 1; month <= totalMonths; month++) {
-    balance = balance * (1 + monthlyRate);
-
     if (month % monthsPerContribution === 0) {
       balance += contribution;
       regularContributions += contribution;
     }
+
+    balance = balance * (1 + monthlyRate);
 
     if (month % MONTHS_PER_YEAR === 0) {
       const totalContributions = principal + regularContributions;
