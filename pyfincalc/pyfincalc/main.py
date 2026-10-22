@@ -83,7 +83,7 @@ def project(
     annual_rate_percent: float,
     frequency: str,
     years: float,
-) -> dict[str, float | int | str]:
+) -> dict[str, float | int | str | list[dict[str, float | int]]]:
     """Compute a monthly-stepped projection and return the summary fields."""
     for name, value in (
         ("initial deposit", principal),
@@ -111,10 +111,33 @@ def project(
 
     balance = principal
     total_contributions = principal
-    for _ in range(months):
+    schedule: list[dict[str, float | int]] = []
+    year_start_balance = principal
+    year_contributions = 0.0
+    year_number = 1
+    for month in range(1, months + 1):
         balance *= 1 + monthly_rate
         balance += monthly_contribution
         total_contributions += monthly_contribution
+        year_contributions += monthly_contribution
+
+        if month % 12 == 0 or month == months:
+            schedule.append(
+                {
+                    "year": year_number,
+                    "balance": round(balance, 2),
+                    "contributions": round(year_contributions, 2),
+                    "interest_earned": round(
+                        balance - year_start_balance - year_contributions, 2
+                    ),
+                    "total_interest_earned": round(
+                        balance - total_contributions, 2
+                    ),
+                }
+            )
+            year_number += 1
+            year_start_balance = balance
+            year_contributions = 0.0
 
     final_balance = round(balance, 2)
     contributed = round(total_contributions, 2)
@@ -131,6 +154,7 @@ def project(
         "final_balance": final_balance,
         "total_contributions": contributed,
         "total_interest_earned": interest,
+        "schedule": schedule,
     }
 
 
