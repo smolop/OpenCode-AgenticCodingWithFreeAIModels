@@ -1,0 +1,3 @@
+# pyfincalc
+
+Empty Python project.
